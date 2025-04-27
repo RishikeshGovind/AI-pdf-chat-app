@@ -5,12 +5,11 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from htmlTemplates import css, bot_template, user_template
 from langchain.llms import HuggingFaceHub
 from huggingface_hub.utils import HfHubHTTPError
+from htmlTemplates import css, bot_template, user_template
 
 # ========== Helper Functions ==========
 
@@ -45,7 +44,6 @@ def get_vectorstore(text_chunks):
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
-
 def get_conversation_chain(vectorstore):
     llm = HuggingFaceHub(
         repo_id="tiiuae/falcon-rw-1b",
@@ -63,7 +61,6 @@ def get_conversation_chain(vectorstore):
     )
     return conversation_chain
 
-
 def handle_userinput(user_question):
     with st.spinner("🤖 Generating answer... Please wait..."):
         response = safe_generate_response(st.session_state.conversation, user_question)
@@ -75,22 +72,20 @@ def handle_userinput(user_question):
 
     for i, message in enumerate(st.session_state.chat_history):
         if i % 2 == 0:
-            st.write(user_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
+            st.write(user_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
         else:
-            st.write(bot_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
+            st.write(bot_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
 
 # ========== Main App ==========
 
 def main():
-    load_dotenv()
-    token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
-    st.write(f"Debug: HuggingFace Token found? {bool(token)}")
     st.set_page_config(
         page_title="Chat with your PDFs 📚",
         page_icon=":books:"
     )
+
+    load_dotenv()
+
     st.write(css, unsafe_allow_html=True)
 
     if "conversation" not in st.session_state:
@@ -106,6 +101,7 @@ def main():
 
     with st.sidebar:
         st.subheader("Your documents")
+        st.info("⚡ Tip: Upload smaller PDFs (<10MB) for best performance!")
         pdf_docs = st.file_uploader(
             "Upload your PDFs here and click on 'Process'", 
             accept_multiple_files=True
@@ -113,12 +109,12 @@ def main():
 
         if st.button("Process"):
             if pdf_docs:
-                with st.spinner("Processing... ⏳"):
-                    # Process PDFs
+                with st.spinner("Processing your PDFs... ⏳"):
                     raw_text = get_pdf_text(pdf_docs)
                     text_chunks = get_text_chunks(raw_text)
                     vectorstore = get_vectorstore(text_chunks)
                     st.session_state.conversation = get_conversation_chain(vectorstore)
+                st.success("✅ PDFs processed successfully! Ask me anything about them.")
             else:
                 st.warning("⚠️ Please upload at least one PDF before processing!")
 
