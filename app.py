@@ -46,7 +46,7 @@ def get_vectorstore(text_chunks):
 
 def get_conversation_chain(vectorstore):
     llm = HuggingFaceHub(
-        repo_id="tiiuae/falcon-rw-1b",
+        repo_id="google/flan-t5-base",
         huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"), 
         model_kwargs={"temperature": 0.5, "max_length": 512}
     )
