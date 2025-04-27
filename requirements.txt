@@ -35,7 +35,7 @@ orjson
 packaging
 pandas
 pillow
-protobuf
+protobuf==3.20.*
 pyarrow
 pydantic
 pydantic-settings
@@ -56,7 +56,7 @@ six
 smmap
 sniffio
 SQLAlchemy
-streamlit
+streamlit==1.25.0
 tenacity
 toml
 tornado
