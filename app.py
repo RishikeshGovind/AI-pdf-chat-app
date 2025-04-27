@@ -85,6 +85,8 @@ def handle_userinput(user_question):
 
 def main():
     load_dotenv()
+    token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+    st.write(f"Debug: HuggingFace Token found? {bool(token)}")
     st.set_page_config(
         page_title="Chat with your PDFs 📚",
         page_icon=":books:"
