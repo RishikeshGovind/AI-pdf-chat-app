@@ -61,7 +61,9 @@ def get_conversation_chain(vectorstore):
     return conversation_chain
 
 def handle_userinput(user_question):
-    response = safe_generate_response(st.session_state.conversation, user_question)
+    with st.spinner("🤖 Generating answer... Please wait..."):
+        response = safe_generate_response(st.session_state.conversation, user_question)
+
     if response is None:
         return  # Error already shown, skip rendering
 
