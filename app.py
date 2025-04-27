@@ -18,6 +18,15 @@ def get_pdf_text(pdf_docs):
             text += page.extract_text()
     return text
 
+from huggingface_hub.utils import HfHubHTTPError
+
+def safe_generate_response(llm, prompt):
+    try:
+        return llm.invoke(prompt)
+    except HfHubHTTPError as e:
+        st.error("🚨 Model server is busy. Please wait a minute and try again.")
+        return None
+    
 
 def get_text_chunks(text):
     text_splitter = CharacterTextSplitter(
