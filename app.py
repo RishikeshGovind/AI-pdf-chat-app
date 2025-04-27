@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
@@ -44,9 +45,11 @@ def get_vectorstore(text_chunks):
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
+
 def get_conversation_chain(vectorstore):
     llm = HuggingFaceHub(
         repo_id="tiiuae/falcon-rw-1b",
+        huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"), 
         model_kwargs={"temperature": 0.5, "max_length": 512}
     )
 
@@ -59,6 +62,7 @@ def get_conversation_chain(vectorstore):
         memory=memory
     )
     return conversation_chain
+
 
 def handle_userinput(user_question):
     with st.spinner("🤖 Generating answer... Please wait..."):
