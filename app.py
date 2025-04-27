@@ -37,9 +37,8 @@ def get_vectorstore(text_chunks):
 
 
 def get_conversation_chain(vectorstore):
-    # llm = ChatOpenAI()
     llm = HuggingFaceHub(
-        repo_id="google/flan-t5-base",  # <-- switch from flan-t5-xxl to flan-t5-base
+        repo_id="facebook/bart-large-cnn", 
         model_kwargs={"temperature": 0.5, "max_length": 512}
     )
     
