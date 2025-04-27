@@ -1,20 +1,12 @@
-aiohttp
-aiosignal
 altair
-anyio
-async-timeout
-attrs
 blinker
 cachetools
 certifi
 charset-normalizer
 click
 dataclasses-json
-distro
-exceptiongroup
 faiss-cpu
 filelock
-frozenlist
 fsspec
 gitdb
 GitPython
@@ -24,7 +16,6 @@ httpx
 httpx-sse
 huggingface-hub
 idna
-InstructorEmbedding
 Jinja2
 jsonpatch
 jsonpointer
@@ -38,14 +29,12 @@ langsmith
 MarkupSafe
 marshmallow
 multidict
-mypy_extensions
 numpy
 openai
 orjson
 packaging
 pandas
 pillow
-propcache
 protobuf
 pyarrow
 pydantic
@@ -62,7 +51,6 @@ regex
 requests
 requests-toolbelt
 rpds-py
-safetensors
 sentence-transformers
 six
 smmap
@@ -81,4 +69,3 @@ tzdata
 urllib3
 yarl
 zstandard
-torch
